@@ -1,0 +1,76 @@
+control:
+  build: ./env
+  hostname: control
+  links:
+    - lb01
+    - app01
+    - app02
+    - app03
+    - lb02
+    - db01
+    - db02
+    - db03
+  ports:
+    - "2200:22"
+  volumes:
+    - ./:/work
+lb01:
+  build: ./env
+  hostname: lb01
+  links:
+    - app01
+    - app02
+    - app03
+  ports:
+    - "2201:22"
+    - "8001:80"
+app01:
+  build: ./env
+  hostname: app01
+  ports:
+    - "2211:22"
+    - "8081:8080"
+app02:
+  build: ./env
+  hostname: app02
+  ports:
+    - "2212:22"
+    - "8082:8080"
+app03:
+  build: ./env
+  hostname: app03
+  ports:
+    - "2222:22"
+    - "8083:8080"
+
+lb02:
+  build: ./env
+  hostname: lb02
+  links:
+    - db01
+    - db02
+    - db03
+  ports:
+    - "2232:22"
+    - "8084:8080"
+
+db01:
+  build: ./env
+  hostname: db01
+  ports:
+    - "2233:22"
+    - "3331:3306"
+
+db02:
+  build: ./env
+  hostname: db02
+  ports:
+    - "2234:22"
+    - "3332:3306"
+
+db03:
+  build: ./env
+  hostname: db03
+  ports:
+    - "2235:22"
+    - "3333:3306"
